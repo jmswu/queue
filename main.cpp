@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-
+#include "queue.h"
 
 int main(int argc, char **argv)
 {
@@ -10,6 +10,12 @@ int main(int argc, char **argv)
     (void)argc;
 
     std::printf("hello world!\n");
+
+    for(size_t i = 0; i < 1024 * 1024 * 512; i++)
+    {
+        queue_handle_t handle = queue_create();
+        queue_destroy(handle);
+    }
 
     return EXIT_SUCCESS;
 }
