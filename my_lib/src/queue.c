@@ -68,3 +68,19 @@ int queue_wait(queue_handle_t handle)
     return sem_wait(&handle->sem);
 }
 
+bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj)
+{
+    if ((handle == NULL) || (obj == NULL))
+        return false;
+}
+
+bool queue_helper_isObjValid(queue_obj_t *const obj)
+{
+    if (obj == NULL)
+        return false;
+
+    if (obj->len == 0)
+        return false;
+
+    return true;
+}
