@@ -26,9 +26,10 @@ extern "C"
     int queue_getItemCount(queue_handle_t handle);
     int queue_wait(queue_handle_t handle);
     void *queue_peek(queue_handle_t handle);
-    bool queue_enqueue(queue_handle_t handle, void *const obj, const size_t len);
-    bool queue_enqueueCopy(queue_handle_t handle, void *const obj, const size_t len);
-    void *queue_dequeue(queue_handle_t handle);
+    bool queue_pushBack(queue_handle_t handle, void *const obj, const size_t len);
+    bool queue_pushFront(queue_handle_t handle, void *const obj, const size_t len);
+    bool queue_pushCopy(queue_handle_t handle, void *const obj, const size_t len);
+    void *queue_pop(queue_handle_t handle);
     void queue_dequeueAndFreeMemory(queue_handle_t handle, void (*cbProcessData)(void *const obj, const size_t len));
 
 #ifdef __cplusplus
