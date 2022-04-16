@@ -3,13 +3,13 @@
 
 namespace 
 {
-    class DummyTest : public::testing::Test
+    class QueueTest : public::testing::Test
     {
     public:
     private:
         
     protected:
-        DummyTest(){}
+        QueueTest(){}
 
         virtual void SetUp()
         {
@@ -22,8 +22,7 @@ namespace
         }
     };
 
-    // testing CPP code
-    TEST_F(DummyTest, pass)
+    TEST_F(QueueTest, pass)
     {
         ASSERT_TRUE(true);
     }

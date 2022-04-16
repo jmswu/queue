@@ -11,7 +11,8 @@ conan_basic_setup()
 
 set (TEST_SRC_FOLDER unit_test)
 set (TEST_SRC_FILES 
-        "${TEST_SRC_FOLDER}/add_test.cpp"
+        "${TEST_SRC_FOLDER}/dummy_test.cpp"
+        "${TEST_SRC_FOLDER}/queue_test.cpp"
     )
 
 # cppcheck
