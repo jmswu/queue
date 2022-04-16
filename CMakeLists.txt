@@ -12,7 +12,6 @@ conan_basic_setup()
 set (TEST_SRC_FOLDER unit_test)
 set (TEST_SRC_FILES 
         "${TEST_SRC_FOLDER}/add_test.cpp"
-        "${TEST_SRC_FOLDER}/another_test.cpp"
     )
 
 # cppcheck
@@ -45,11 +44,11 @@ endif()
 
 add_subdirectory(my_lib)
 add_executable (${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} my_lib)
+target_link_libraries(${PROJECT_NAME} my_queue)
 
 enable_testing()
 add_executable (unit_test ${TEST_SRC_FILES})
-target_link_libraries (unit_test PRIVATE my_lib ${CONAN_LIBS})
+target_link_libraries (unit_test PRIVATE my_queue ${CONAN_LIBS})
 include(GoogleTest)
 gtest_discover_tests(unit_test)
 
@@ -60,7 +59,3 @@ gtest_discover_tests(unit_test)
 # 
 # set (CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${GCC_C_COVERAGE_COMPILE_FLAGS})
 # set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${GCC_CXX_COVERAGE_COMPILE_FLAGS})
-
-add_custom_target(test
-    COMMAND ${UNIT_TEST_NAME}
-)

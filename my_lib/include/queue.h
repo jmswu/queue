@@ -1,5 +1,5 @@
 /**
- * @file add.h
+ * @file queue.h
  * @author James Wu(jameswu62@yahoo.co.nz)
  * @brief C code example
  * @version 0.1
