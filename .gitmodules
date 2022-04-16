@@ -1,0 +1,3 @@
+[submodule "third-party/fff"]
+	path = third-party/fff
+	url = https://github.com/meekrosoft/fff.git
