@@ -27,7 +27,9 @@ queue_handle_t queue_create(void)
         handle->head = NULL;
         handle->tail = NULL;
         pthread_mutex_init(&handle->mutex, NULL);
-        sem_init(&handle->sem, 0, 0);
+        const int SHARE_BETWEEN_THREAD = 0;
+        const int INIT_VALUE = 0;
+        sem_init(&handle->sem, SHARE_BETWEEN_THREAD, INIT_VALUE);
     }
 
     return handle;
