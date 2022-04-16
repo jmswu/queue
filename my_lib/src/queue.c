@@ -59,3 +59,11 @@ int queue_getItemCount(queue_handle_t handle)
 
     return rc == SUCCESS ? itemCount : 0;
 }
+
+void queue_wait(queue_handle_t handle)
+{
+    if (handle == NULL)
+        return;
+
+    return sem_wait(&handle->sem);
+}
