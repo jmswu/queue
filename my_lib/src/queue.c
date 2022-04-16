@@ -63,7 +63,7 @@ int queue_getItemCount(queue_handle_t handle)
 int queue_wait(queue_handle_t handle)
 {
     if (handle == NULL)
-        return;
+        return -1;
 
     return sem_wait(&handle->sem);
 }
