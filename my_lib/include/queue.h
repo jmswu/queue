@@ -39,6 +39,7 @@ extern "C"
     void queue_helper_popAndFreeMemory(queue_handle_t const handle, void (*const cbProcessData)(queue_obj_t *const obj));
     bool queue_helper_pushBackCopy(queue_handle_t const handle, queue_obj_t *const obj);
     bool queue_helper_pushFrontCopy(queue_handle_t const handle, queue_obj_t *const obj);
+    bool queue_helper_isObjValid(queue_obj_t * const obj);
 
 #ifdef __cplusplus
 }

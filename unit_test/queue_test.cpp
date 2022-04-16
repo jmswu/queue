@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../third-party/fff/fff.h"
+#include "queue.h"
 
 namespace 
 {
@@ -25,5 +26,11 @@ namespace
     TEST_F(QueueTest, pass)
     {
         ASSERT_TRUE(true);
+    }
+
+    TEST_F(QueueTest, queueObj_nullShouldReturnFalse)
+    {
+        queue_obj_t *obj = NULL;
+        ASSERT_FALSE(queue_helper_isObjValid(obj));
     }
 }

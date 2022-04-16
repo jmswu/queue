@@ -82,5 +82,8 @@ bool queue_helper_isObjValid(queue_obj_t *const obj)
     if (obj->len == 0)
         return false;
 
+    if (obj->ptrData == NULL)
+        return false;
+
     return true;
 }
