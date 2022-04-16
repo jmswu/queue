@@ -2,24 +2,21 @@
 #include "../third-party/fff/fff.h"
 #include "queue.h"
 
-namespace 
+namespace
 {
-    class QueueTest : public::testing::Test
+    class QueueTest : public ::testing::Test
     {
     public:
     private:
-        
     protected:
-        QueueTest(){}
+        QueueTest() {}
 
         virtual void SetUp()
         {
-
         }
 
         virtual void TearDown()
         {
-
         }
     };
 
@@ -28,9 +25,25 @@ namespace
         ASSERT_TRUE(true);
     }
 
-    TEST_F(QueueTest, queueObj_nullShouldReturnFalse)
+    TEST_F(QueueTest, queueObj_nullObjShouldReturnFalse)
     {
-        queue_obj_t *obj = NULL;
-        ASSERT_FALSE(queue_helper_isObjValid(obj));
+        ASSERT_FALSE(queue_helper_isObjValid(NULL));
+    }
+
+    TEST_F(QueueTest, queueObj_zeroLengthShouldReturnFalse)
+    {
+        int data = 0;
+        queue_obj_t obj = {
+            .ptrData = &data,
+            .len = 0};
+        ASSERT_FALSE(queue_helper_isObjValid(&obj));
+    }
+
+    TEST_F(QueueTest, queueObj_nullDataPtrShouldReturnFalse)
+    {
+        queue_obj_t obj = {
+            .ptrData = NULL,
+            .len = 1};
+        ASSERT_FALSE(queue_helper_isObjValid(&obj));
     }
 }
