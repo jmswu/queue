@@ -23,6 +23,7 @@ extern "C"
 
     queue_handle_t queue_create(void);
     void queue_destroy(queue_handle_t handle);
+    int queue_getItemCount(queue_handle_t handle);
     void queue_wait(queue_handle_t handle);
     void *queue_peek(queue_handle_t handle);
     bool queue_enqueue(queue_handle_t handle, void *const obj, const size_t len);

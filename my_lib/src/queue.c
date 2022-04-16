@@ -42,3 +42,18 @@ void queue_destroy(queue_handle_t handle)
     sem_destroy(&handle->sem);
     free(handle);
 }
+
+int queue_getItemCount(queue_handle_t handle)
+{
+    if (handle == NULL)
+        return 0;
+
+    pthread_mutex_lock(&handle->mutex);
+    int itemCount = 0;
+    int rc = sem_getvalue(&handle->sem, &itemCount);
+    pthread_mutex_unlock(&handle->mutex);
+
+    const int SUCCESS = 0;
+
+    return rc == SUCCESS ? itemCount : 0;
+}
