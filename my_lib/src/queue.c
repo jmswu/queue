@@ -17,7 +17,7 @@ typedef struct queue_typeDef
     node_typeDef *tail;
 } queue_typeDef;
 
-static inline node_typeDef * helper_createNode(queue_obj_t * const obj);
+static inline node_typeDef *helper_createNode(queue_obj_t *const obj);
 
 queue_handle_t queue_create(void)
 {
@@ -92,6 +92,52 @@ bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj)
     sem_post(&handle->sem);
 
     pthread_mutex_unlock(&handle->mutex);
+
+    return true;
+}
+
+queue_obj_t queue_peek(queue_handle_t const handle)
+{
+    queue_obj_t obj = {
+        .ptrData = NULL,
+        .len = 0};
+
+    if (handle == NULL)
+        return obj;
+
+    pthread_mutex_lock(&handle->mutex);
+    obj = handle->head->obj;
+    pthread_mutex_unlock(&handle->mutex);
+
+}
+
+queue_obj_t queue_pop(queue_handle_t const handle)
+{
+    queue_obj_t obj = {
+        .ptrData = NULL,
+        .len = 0};
+
+    if (handle == NULL)
+        return obj;
+
+    pthread_mutex_lock(&handle->mutex);
+
+    // store the head node and move the head
+    // to next node
+    node_typeDef *temp = handle->head;
+    handle->head = handle->head->next;
+
+    if (handle->head == NULL)
+        handle->tail == NULL;
+
+    // make a copy of the queue object
+    obj = temp->obj;
+
+    free(temp);
+
+    pthread_mutex_unlock(&handle->mutex);
+
+    return obj;
 }
 
 bool queue_helper_isObjValid(queue_obj_t *const obj)
@@ -108,10 +154,10 @@ bool queue_helper_isObjValid(queue_obj_t *const obj)
     return true;
 }
 
-static inline node_typeDef * helper_createNode(queue_obj_t * const obj)
+static inline node_typeDef *helper_createNode(queue_obj_t *const obj)
 {
     node_typeDef *node = (node_typeDef *)malloc(sizeof(node_typeDef));
     node->obj = *obj;
     node->next = NULL;
-    return node;    
+    return node;
 }

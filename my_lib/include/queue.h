@@ -33,8 +33,8 @@ extern "C"
     int queue_wait(queue_handle_t const handle);
     bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj);
     bool queue_pushFront(queue_handle_t const handle, queue_obj_t *const obj);
-    queue_obj_t *queue_peek(queue_handle_t const handle);
-    queue_obj_t *queue_pop(queue_handle_t const handle);
+    queue_obj_t queue_peek(queue_handle_t const handle);
+    queue_obj_t queue_pop(queue_handle_t const handle);
 
     void queue_helper_popAndFreeMemory(queue_handle_t const handle, void (*const cbProcessData)(queue_obj_t *const obj));
     bool queue_helper_pushBackCopy(queue_handle_t const handle, queue_obj_t *const obj);
