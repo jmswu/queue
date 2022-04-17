@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 
     std::printf("hello world!\n");
 
-    for(size_t i = 0; i < 1024 * 1024 * 512; i++)
+    for(size_t i = 0; i < 1024UL * 1024UL * 512UL; i++)
     {
         queue_handle_t handle = queue_create();
         queue_destroy(handle);
