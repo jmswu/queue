@@ -73,7 +73,7 @@ namespace
 
         // test the data are the same
         ASSERT_EQ(BUFF_SIZE, pop_obj.len);
-        ASSERT_EQ(push_obj.ptrData, pop_obj.ptrData);
+        ASSERT_EQ(0, memcmp(&push_obj, &pop_obj, sizeof(queue_obj_t)));
         ASSERT_EQ(0, memcmp(push_obj.ptrData, pop_obj.ptrData, BUFF_SIZE));
 
         // free test data
