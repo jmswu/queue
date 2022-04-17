@@ -17,6 +17,8 @@ typedef struct queue_typeDef
     node_typeDef *tail;
 } queue_typeDef;
 
+static inline node_typeDef * helper_createNode(queue_obj_t * const obj);
+
 queue_handle_t queue_create(void)
 {
     queue_handle_t handle = (queue_handle_t)malloc(sizeof(queue_typeDef));
@@ -72,8 +74,23 @@ bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj)
     if ((handle == NULL) || (obj == NULL))
         return false;
 
+    node_typeDef *newNode = helper_createNode(obj);
+
     pthread_mutex_lock(&handle->mutex);
-    
+
+    if (handle->head == NULL)
+    {
+        handle->head = newNode;
+        handle->tail = newNode;
+    }
+    else
+    {
+        handle->tail->next = newNode;
+        handle->tail = newNode;
+    }
+
+    sem_post(&handle->sem);
+
     pthread_mutex_unlock(&handle->mutex);
 }
 
@@ -89,4 +106,12 @@ bool queue_helper_isObjValid(queue_obj_t *const obj)
         return false;
 
     return true;
+}
+
+static inline node_typeDef * helper_createNode(queue_obj_t * const obj)
+{
+    node_typeDef *node = (node_typeDef *)malloc(sizeof(node_typeDef));
+    node->obj = *obj;
+    node->next = NULL;
+    return node;    
 }

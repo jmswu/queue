@@ -23,8 +23,8 @@ extern "C"
 
     typedef struct
     {
-        void *const ptrData;
-        const size_t len;
+        void *ptrData;
+        size_t len;
     } queue_obj_t;
 
     queue_handle_t queue_create(void);
@@ -39,7 +39,7 @@ extern "C"
     void queue_helper_popAndFreeMemory(queue_handle_t const handle, void (*const cbProcessData)(queue_obj_t *const obj));
     bool queue_helper_pushBackCopy(queue_handle_t const handle, queue_obj_t *const obj);
     bool queue_helper_pushFrontCopy(queue_handle_t const handle, queue_obj_t *const obj);
-    bool queue_helper_isObjValid(queue_obj_t * const obj);
+    bool queue_helper_isObjValid(queue_obj_t *const obj);
 
 #ifdef __cplusplus
 }
