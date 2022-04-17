@@ -5,8 +5,7 @@
 
 typedef struct node_typeDef
 {
-    void *ptrData;
-    size_t len;
+    queue_obj_t obj;
     struct node_typeDef *next;
 } node_typeDef;
 
@@ -72,6 +71,10 @@ bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj)
 {
     if ((handle == NULL) || (obj == NULL))
         return false;
+
+    pthread_mutex_lock(&handle->mutex);
+    
+    pthread_mutex_unlock(&handle->mutex);
 }
 
 bool queue_helper_isObjValid(queue_obj_t *const obj)
