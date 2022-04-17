@@ -108,7 +108,6 @@ queue_obj_t queue_peek(queue_handle_t const handle)
     pthread_mutex_lock(&handle->mutex);
     obj = handle->head->obj;
     pthread_mutex_unlock(&handle->mutex);
-
 }
 
 queue_obj_t queue_pop(queue_handle_t const handle)
@@ -127,8 +126,9 @@ queue_obj_t queue_pop(queue_handle_t const handle)
     node_typeDef *temp = handle->head;
     handle->head = handle->head->next;
 
+    // if head is NULL, change tail into NULL
     if (handle->head == NULL)
-        handle->tail == NULL;
+        handle->tail = NULL;
 
     // make a copy of the queue object
     obj = temp->obj;
