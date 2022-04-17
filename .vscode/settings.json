@@ -3,6 +3,7 @@
     "files.associations": {
         "*.tcc": "c",
         "cstdlib": "c",
-        "semaphore.h": "c"
+        "semaphore.h": "c",
+        "ostream": "cpp"
     }
 }
