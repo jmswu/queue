@@ -3,13 +3,15 @@
 #include <semaphore.h>
 #include "queue.h"
 
-typedef struct node_typeDef
+typedef struct __attribute__((aligned(32))) 
+node_typeDef
 {
     queue_obj_t obj;
     struct node_typeDef *next;
-} node_typeDef;
+} node_typeDef ;
 
-typedef struct queue_typeDef
+typedef struct __attribute__((aligned(128))) 
+queue_typeDef
 {
     pthread_mutex_t mutex;
     sem_t sem;
@@ -36,20 +38,24 @@ queue_handle_t queue_create(void)
     return handle;
 }
 
-void queue_destroy(queue_handle_t handle)
+void queue_destroy(const queue_handle_t handle)
 {
     if (handle == NULL)
+    {
         return;
+    }
 
     pthread_mutex_destroy(&handle->mutex);
     sem_destroy(&handle->sem);
     free(handle);
 }
 
-int queue_getItemCount(queue_handle_t handle)
+int queue_getItemCount(const queue_handle_t handle)
 {
     if (handle == NULL)
+    {
         return 0;
+    }
 
     pthread_mutex_lock(&handle->mutex);
     int itemCount = 0;
@@ -61,18 +67,22 @@ int queue_getItemCount(queue_handle_t handle)
     return rc == SUCCESS ? itemCount : 0;
 }
 
-int queue_wait(queue_handle_t handle)
+int queue_wait(const queue_handle_t handle)
 {
     if (handle == NULL)
+    {
         return -1;
+    }
 
     return sem_wait(&handle->sem);
 }
 
-bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj)
+bool queue_pushBack(const queue_handle_t handle, queue_obj_t *const obj)
 {
     if ((handle == NULL) || (obj == NULL))
+    {
         return false;
+    }
 
     node_typeDef *newNode = helper_createNode(obj);
 
@@ -103,11 +113,15 @@ queue_obj_t queue_peek(const queue_handle_t handle)
         .len = 0};
 
     if (handle == NULL)
+    {
         return obj;
+    }
 
     pthread_mutex_lock(&handle->mutex);
     obj = handle->head->obj;
     pthread_mutex_unlock(&handle->mutex);
+
+    return obj;
 }
 
 queue_obj_t queue_pop(const queue_handle_t handle)
@@ -117,7 +131,9 @@ queue_obj_t queue_pop(const queue_handle_t handle)
         .len = 0};
 
     if (handle == NULL)
+    {
         return obj;
+    }
 
     pthread_mutex_lock(&handle->mutex);
 
@@ -128,7 +144,9 @@ queue_obj_t queue_pop(const queue_handle_t handle)
 
     // if head is NULL, change tail into NULL
     if (handle->head == NULL)
+    {
         handle->tail = NULL;
+    }
 
     // make a copy of the queue object
     obj = temp->obj;
@@ -143,13 +161,19 @@ queue_obj_t queue_pop(const queue_handle_t handle)
 bool queue_helper_isObjValid(queue_obj_t *const obj)
 {
     if (obj == NULL)
+    {
         return false;
+    }
 
     if (obj->len == 0)
+    {
         return false;
+    }
 
     if (obj->ptrData == NULL)
+    {
         return false;
+    }
 
     return true;
 }

@@ -28,17 +28,17 @@ extern "C"
     } queue_obj_t;
 
     queue_handle_t queue_create(void);
-    void queue_destroy(queue_handle_t const handle);
-    int queue_getItemCount(queue_handle_t const handle);
-    int queue_wait(queue_handle_t const handle);
-    bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj);
-    bool queue_pushFront(queue_handle_t const handle, queue_obj_t *const obj);
+    void queue_destroy(const queue_handle_t handle);
+    int queue_getItemCount(const queue_handle_t handle);
+    int queue_wait(const queue_handle_t handle);
+    bool queue_pushBack(const queue_handle_t handle, queue_obj_t *const obj);
+    bool queue_pushFront(const queue_handle_t handle, queue_obj_t *const obj);
     queue_obj_t queue_peek(const queue_handle_t handle);
     queue_obj_t queue_pop(const queue_handle_t handle);
 
-    void queue_helper_popAndFreeMemory(queue_handle_t const handle, void (*const cbProcessData)(queue_obj_t *const obj));
-    bool queue_helper_pushBackCopy(queue_handle_t const handle, queue_obj_t *const obj);
-    bool queue_helper_pushFrontCopy(queue_handle_t const handle, queue_obj_t *const obj);
+    void queue_helper_popAndFreeMemory(const queue_handle_t handle, void (*const cbProcessData)(queue_obj_t *const obj));
+    bool queue_helper_pushBackCopy(const queue_handle_t handle, queue_obj_t *const obj);
+    bool queue_helper_pushFrontCopy(const queue_handle_t handle, queue_obj_t *const obj);
     bool queue_helper_isObjValid(queue_obj_t *const obj);
 
 #ifdef __cplusplus
