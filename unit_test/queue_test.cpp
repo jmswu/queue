@@ -56,4 +56,27 @@ namespace
         // handle should not be NULL
         ASSERT_NE(handle, (queue_handle_t)NULL);
     }
+
+    TEST_F(QueueTest, pushDataShouldEquelPopData)
+    {
+        // create obj
+        const int BUFF_SIZE = 32;
+        char *buffer = (char *)malloc(BUFF_SIZE);
+        sprintf(buffer, "Hello world!");
+        queue_obj_t push_obj = {
+            .ptrData = (void *)buffer,
+            .len = BUFF_SIZE};
+
+        // push and pop data
+        queue_pushBack(handle, &push_obj);
+        queue_obj_t pop_obj = queue_pop(handle);
+
+        // test the data are the same
+        ASSERT_EQ(BUFF_SIZE, pop_obj.len);
+        ASSERT_EQ(push_obj.ptrData, pop_obj.ptrData);
+        ASSERT_EQ(0, memcmp(push_obj.ptrData, pop_obj.ptrData, BUFF_SIZE));
+
+        // free test data
+        free(buffer);
+    }
 }
