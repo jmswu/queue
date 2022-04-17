@@ -9,14 +9,17 @@ namespace
     public:
     private:
     protected:
+        queue_handle_t handle = NULL;
         QueueTest() {}
 
         virtual void SetUp()
         {
+            handle = queue_create();
         }
 
         virtual void TearDown()
         {
+            queue_destroy(handle);
         }
     };
 
@@ -45,5 +48,12 @@ namespace
             .ptrData = NULL,
             .len = 1};
         ASSERT_FALSE(queue_helper_isObjValid(&obj));
+    }
+
+    TEST_F(QueueTest, handleShouldNotBeNull)
+    {
+        // if creater and destroy is working
+        // handle should not be NULL
+        ASSERT_NE(handle, (queue_handle_t)NULL);
     }
 }
