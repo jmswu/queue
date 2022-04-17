@@ -17,7 +17,7 @@ typedef struct queue_typeDef
     node_typeDef *tail;
 } queue_typeDef;
 
-static inline node_typeDef *helper_createNode(queue_obj_t *const obj);
+static inline node_typeDef *helper_createNode(queue_obj_t *obj);
 
 queue_handle_t queue_create(void)
 {
@@ -96,7 +96,7 @@ bool queue_pushBack(queue_handle_t const handle, queue_obj_t *const obj)
     return true;
 }
 
-queue_obj_t queue_peek(queue_handle_t const handle)
+queue_obj_t queue_peek(const queue_handle_t handle)
 {
     queue_obj_t obj = {
         .ptrData = NULL,
@@ -110,7 +110,7 @@ queue_obj_t queue_peek(queue_handle_t const handle)
     pthread_mutex_unlock(&handle->mutex);
 }
 
-queue_obj_t queue_pop(queue_handle_t const handle)
+queue_obj_t queue_pop(const queue_handle_t handle)
 {
     queue_obj_t obj = {
         .ptrData = NULL,
