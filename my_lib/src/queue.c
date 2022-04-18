@@ -18,6 +18,7 @@ queue_typeDef
     sem_t sem;
     node_typeDef *head;
     node_typeDef *tail;
+    int itemCount;
 } queue_typeDef;
 
 static inline node_typeDef *helper_createNode(queue_obj_t *obj);
@@ -30,6 +31,7 @@ queue_handle_t queue_create(void)
     {
         handle->head = NULL;
         handle->tail = NULL;
+        handle->itemCount = 0;
         pthread_mutex_init(&handle->mutex, NULL);
         const int SHARE_BETWEEN_THREAD = 0;
         const int INIT_VALUE = 0;
@@ -61,15 +63,13 @@ int queue_getItemCount(const queue_handle_t handle)
     }
 
     pthread_mutex_lock(&handle->mutex);
-    int itemCount = 0;
-    int rc = sem_getvalue(&handle->sem, &itemCount);
+    int itemCount = handle->itemCount;
     pthread_mutex_unlock(&handle->mutex);
 
     // muti thead invariant value check
     assert(itemCount >= 0);
 
-    const int SUCCESS = 0;
-    return rc == SUCCESS ? itemCount : 0;
+    return itemCount;
 }
 
 int queue_wait(const queue_handle_t handle)
@@ -104,6 +104,7 @@ bool queue_pushBack(const queue_handle_t handle, queue_obj_t *const obj)
         handle->tail = newNode;
     }
 
+    handle->itemCount++;
     sem_post(&handle->sem);
 
     pthread_mutex_unlock(&handle->mutex);
@@ -163,6 +164,8 @@ queue_obj_t queue_pop(const queue_handle_t handle)
     obj = temp->obj;
 
     free(temp);
+
+    handle->itemCount--;
 
     pthread_mutex_unlock(&handle->mutex);
 
