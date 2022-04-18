@@ -127,8 +127,8 @@ namespace
         // create obj
         const int BUFF_SIZE_1 = 32;
         const int BUFF_SIZE_2 = 64;
-        TestQueueObj testObj_1{"Hello world one", BUFF_SIZE_1};
-        TestQueueObj testObj_2{"Hello world two", BUFF_SIZE_2};
+        TestQueueObj testObj_1{"1.Hello world one", BUFF_SIZE_1};
+        TestQueueObj testObj_2{"2.Hello world two", BUFF_SIZE_2};
         queue_obj_t push_obj_1 = testObj_1.getTestQueueObj();
         queue_obj_t push_obj_2 = testObj_2.getTestQueueObj();
 
