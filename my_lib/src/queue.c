@@ -3,14 +3,14 @@
 #include <semaphore.h>
 #include "queue.h"
 
-typedef struct __attribute__((aligned(32))) 
+typedef struct __attribute__((aligned(32)))
 node_typeDef
 {
     queue_obj_t obj;
     struct node_typeDef *next;
-} node_typeDef ;
+} node_typeDef;
 
-typedef struct __attribute__((aligned(128))) 
+typedef struct __attribute__((aligned(128)))
 queue_typeDef
 {
     pthread_mutex_t mutex;
@@ -131,6 +131,12 @@ queue_obj_t queue_pop(const queue_handle_t handle)
         .len = 0};
 
     if (handle == NULL)
+    {
+        return obj;
+    }
+
+    // handle queue is empty
+    if (queue_getItemCount(handle) <= 0)
     {
         return obj;
     }
