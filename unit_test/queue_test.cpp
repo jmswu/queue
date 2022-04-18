@@ -1,6 +1,54 @@
+#include <assert.h>
 #include "gtest/gtest.h"
 #include "../third-party/fff/fff.h"
 #include "queue.h"
+
+struct TestQueueObj
+{
+    TestQueueObj(std::string str, const size_t buffer_size)
+    {
+        assert(str.length() < buffer_size);
+
+        buffer = (char *)malloc(buffer_size);
+        std::sprintf(buffer, "%s", str.c_str());
+        obj = {
+            .ptrData = (void *)buffer,
+            .len = buffer_size};
+    }
+
+    queue_obj_t getTestQueueObj()
+    {
+        return obj;
+    }
+
+    ~TestQueueObj()
+    {
+        free(buffer);
+    }
+
+private:
+    char *buffer;
+    queue_obj_t obj;
+};
+
+queue_obj_t helper_createTestQueueObj(const char *str, const size_t buffer_len)
+{
+
+    assert(str != NULL);
+
+    char *buffer = (char *)malloc(buffer_len);
+    sprintf(buffer, "%s", str);
+    queue_obj_t obj = {
+        .ptrData = (void *)buffer,
+        .len = buffer_len};
+    return obj;
+}
+
+void helper_freeTestQueueObj(queue_obj_t *const obj)
+{
+    assert(obj != NULL);
+    free(obj->ptrData);
+}
 
 namespace
 {
@@ -61,11 +109,8 @@ namespace
     {
         // create obj
         const int BUFF_SIZE = 32;
-        char *buffer = (char *)malloc(BUFF_SIZE);
-        sprintf(buffer, "Hello world!");
-        queue_obj_t push_obj = {
-            .ptrData = (void *)buffer,
-            .len = BUFF_SIZE};
+        TestQueueObj testObj{"Hello world", BUFF_SIZE};
+        queue_obj_t push_obj = testObj.getTestQueueObj();
 
         // push and pop data
         queue_pushBack(handle, &push_obj);
@@ -75,8 +120,5 @@ namespace
         ASSERT_EQ(BUFF_SIZE, pop_obj.len);
         ASSERT_EQ(0, memcmp(&push_obj, &pop_obj, sizeof(queue_obj_t)));
         ASSERT_EQ(0, memcmp(push_obj.ptrData, pop_obj.ptrData, BUFF_SIZE));
-
-        // free test data
-        free(buffer);
     }
 }
