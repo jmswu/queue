@@ -28,7 +28,7 @@ extern "C"
     } queue_obj_t;
 
     queue_handle_t queue_create(void);
-    void queue_destroy(const queue_handle_t handle);
+    void queue_destroy(queue_handle_t handle);
     int queue_getItemCount(const queue_handle_t handle);
     int queue_wait(const queue_handle_t handle);
     bool queue_pushBack(const queue_handle_t handle, queue_obj_t *const obj);

@@ -39,7 +39,7 @@ queue_handle_t queue_create(void)
     return handle;
 }
 
-void queue_destroy(const queue_handle_t handle)
+void queue_destroy(queue_handle_t handle)
 {
     if (handle == NULL)
     {
@@ -49,6 +49,8 @@ void queue_destroy(const queue_handle_t handle)
     pthread_mutex_destroy(&handle->mutex);
     sem_destroy(&handle->sem);
     free(handle);
+
+    handle = NULL;
 }
 
 int queue_getItemCount(const queue_handle_t handle)
