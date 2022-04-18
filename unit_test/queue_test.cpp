@@ -151,6 +151,32 @@ namespace
         ASSERT_EQ(NULL, pop_obj_2.ptrData);
     }
 
+    TEST_F(QueueTest, pushOneAndPopThree_secondAndThridOneShouldBeNull)
+    {
+        // create obj
+        const int BUFF_SIZE = 32;
+        TestQueueObj testObj{"Hello world", BUFF_SIZE};
+        queue_obj_t push_obj = testObj.getTestQueueObj();
+
+        // push and pop data
+        queue_pushBack(handle, &push_obj);
+        queue_obj_t pop_obj_1 = queue_pop(handle);
+        queue_obj_t pop_obj_2 = queue_pop(handle);
+        queue_obj_t pop_obj_3 = queue_pop(handle);
+
+        // test the data are the same
+        ASSERT_EQ(BUFF_SIZE, pop_obj_1.len);
+        ASSERT_EQ(0, memcmp(&push_obj, &pop_obj_1, sizeof(queue_obj_t)));
+        ASSERT_EQ(0, memcmp(push_obj.ptrData, pop_obj_1.ptrData, BUFF_SIZE));
+
+        // second and thrid should be NULL
+        ASSERT_EQ(0, pop_obj_2.len);
+        ASSERT_EQ(NULL, pop_obj_2.ptrData);
+
+        ASSERT_EQ(0, pop_obj_3.len);
+        ASSERT_EQ(NULL, pop_obj_3.ptrData);
+    }
+
     TEST_F(QueueTest, pushDataShouldEquelPopDataTwoObjs)
     {
         // create obj
