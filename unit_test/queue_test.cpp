@@ -121,4 +121,30 @@ namespace
         ASSERT_EQ(0, memcmp(&push_obj, &pop_obj, sizeof(queue_obj_t)));
         ASSERT_EQ(0, memcmp(push_obj.ptrData, pop_obj.ptrData, BUFF_SIZE));
     }
+
+    TEST_F(QueueTest, pushDataShouldEquelPopDataTwoObjs)
+    {
+        // create obj
+        const int BUFF_SIZE_1 = 32;
+        const int BUFF_SIZE_2 = 64;
+        TestQueueObj testObj_1{"Hello world", BUFF_SIZE_1};
+        TestQueueObj testObj_2{"Hello world", BUFF_SIZE_2};
+        queue_obj_t push_obj_1 = testObj_1.getTestQueueObj();
+        queue_obj_t push_obj_2 = testObj_2.getTestQueueObj();
+
+        // push and pop data
+        queue_pushBack(handle, &push_obj_1);
+        queue_pushBack(handle, &push_obj_2);
+        queue_obj_t pop_obj_1 = queue_pop(handle);
+        queue_obj_t pop_obj_2 = queue_pop(handle);
+
+        // test the data are the same
+        ASSERT_EQ(BUFF_SIZE_1, pop_obj_1.len);
+        ASSERT_EQ(0, memcmp(&push_obj_1, &pop_obj_1, sizeof(queue_obj_t)));
+        ASSERT_EQ(0, memcmp(push_obj_1.ptrData, pop_obj_1.ptrData, BUFF_SIZE_1));
+
+        ASSERT_EQ(BUFF_SIZE_2, pop_obj_2.len);
+        ASSERT_EQ(0, memcmp(&push_obj_2, &pop_obj_2, sizeof(queue_obj_t)));
+        ASSERT_EQ(0, memcmp(push_obj_2.ptrData, pop_obj_2.ptrData, BUFF_SIZE_1));
+    }
 }
