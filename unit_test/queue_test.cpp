@@ -105,6 +105,13 @@ namespace
         ASSERT_NE(handle, (queue_handle_t)NULL);
     }
 
+    TEST_F(QueueTest, popAnEmptyQueueShouldReturnNull)
+    {
+        queue_obj_t pop_obj = queue_pop(handle);
+        ASSERT_EQ(0, pop_obj.len);
+        ASSERT_EQ(NULL, pop_obj.ptrData);
+    }
+
     TEST_F(QueueTest, pushDataShouldEquelPopData)
     {
         // create obj
