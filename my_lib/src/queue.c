@@ -62,8 +62,10 @@ int queue_getItemCount(const queue_handle_t handle)
     int rc = sem_getvalue(&handle->sem, &itemCount);
     pthread_mutex_unlock(&handle->mutex);
 
-    const int SUCCESS = 0;
+    // muti thead invariant value check
+    assert(itemCount >= 0);
 
+    const int SUCCESS = 0;
     return rc == SUCCESS ? itemCount : 0;
 }
 
