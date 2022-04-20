@@ -27,7 +27,7 @@ void runTest_queueCreateAndDestroy(void)
     // memory userage after this. If there is significant memory
     // userage, there is a memory leak.
 
-    for (size_t i = 0; i < 1024UL * 1024UL * 512UL; i++)
+    for (size_t i = 0; i < 1024UL * 1024UL * 256UL; i++)
     {
         handle = queue_create();
         queue_destroy(handle);
@@ -49,7 +49,7 @@ void runTest_queuePushAndPop(void)
     // memory userage after this. If there is significant memory
     // userage, there is a memory leak.
 
-    for (size_t i = 0; i < 1024UL * 1024UL * 512UL; i++)
+    for (size_t i = 0; i < 1024UL * 1024UL * 256UL; i++)
     {
         queue_pushBack(handle, &push_obj);
         queue_obj_t pop_obj = queue_pop(handle);
