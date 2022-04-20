@@ -26,28 +26,22 @@ static inline node_typeDef *helper_createNode(queue_obj_t *obj);
 queue_handle_t queue_create(void)
 {
     queue_handle_t handle = (queue_handle_t)malloc(sizeof(queue_typeDef));
+    assert(handle != NULL);
 
-    if (handle != NULL)
-    {
-        handle->head = NULL;
-        handle->tail = NULL;
-        handle->itemCount = 0;
-        pthread_mutex_init(&handle->mutex, NULL);
-        const int SHARE_BETWEEN_THREAD = 0;
-        const int INIT_VALUE = 0;
-        sem_init(&handle->sem, SHARE_BETWEEN_THREAD, INIT_VALUE);
-    }
+    handle->head = NULL;
+    handle->tail = NULL;
+    handle->itemCount = 0;
+    pthread_mutex_init(&handle->mutex, NULL);
+    const int SHARE_BETWEEN_THREAD = 0;
+    const int INIT_VALUE = 0;
+    sem_init(&handle->sem, SHARE_BETWEEN_THREAD, INIT_VALUE);
 
     return handle;
 }
 
 void queue_destroy(queue_handle_t handle)
 {
-    if (handle == NULL)
-    {
-        return;
-    }
-
+    assert(handle != NULL);
     pthread_mutex_destroy(&handle->mutex);
     sem_destroy(&handle->sem);
     free(handle);
@@ -57,11 +51,7 @@ void queue_destroy(queue_handle_t handle)
 
 int queue_getItemCount(const queue_handle_t handle)
 {
-    if (handle == NULL)
-    {
-        return 0;
-    }
-
+    assert(handle != NULL);
     pthread_mutex_lock(&handle->mutex);
     int itemCount = handle->itemCount;
     pthread_mutex_unlock(&handle->mutex);
@@ -74,20 +64,14 @@ int queue_getItemCount(const queue_handle_t handle)
 
 int queue_wait(const queue_handle_t handle)
 {
-    if (handle == NULL)
-    {
-        return -1;
-    }
-
+    assert(handle != NULL);
     return sem_wait(&handle->sem);
 }
 
 bool queue_pushBack(const queue_handle_t handle, queue_obj_t *const obj)
 {
-    if ((handle == NULL) || (obj == NULL))
-    {
-        return false;
-    }
+    assert(handle != NULL);
+    assert(obj != NULL);
 
     node_typeDef *newNode = helper_createNode(obj);
 
@@ -105,6 +89,10 @@ bool queue_pushBack(const queue_handle_t handle, queue_obj_t *const obj)
     }
 
     handle->itemCount++;
+
+    // muti thead invariant value check
+    assert(handle->itemCount >= 0);
+
     sem_post(&handle->sem);
 
     pthread_mutex_unlock(&handle->mutex);
@@ -165,7 +153,10 @@ queue_obj_t queue_pop(const queue_handle_t handle)
 
     free(temp);
 
-    handle->itemCount--;
+    if (handle->itemCount > 0) 
+    {
+        handle->itemCount--;
+    }
 
     pthread_mutex_unlock(&handle->mutex);
 
