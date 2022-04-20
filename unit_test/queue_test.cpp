@@ -177,7 +177,6 @@ namespace
         ASSERT_EQ(NULL, pop_obj_3.ptrData);
     }
 
-    //=== to do done ===
     TEST_F(QueueTest, pushTwoAndPopThree_thridOneShouldBeNull)
     {
         // create obj
