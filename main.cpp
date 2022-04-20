@@ -1,7 +1,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
+
 #include "queue.h"
+#include "unit_test/helper.hpp"
 
 void runTest_queueCreateAndDestroy(void);
 void runTest_queuePushAndPop(void);
@@ -39,22 +41,18 @@ void runTest_queuePushAndPop(void)
     std::printf("Testing queue push and pop...\n");
 
     queue_handle_t handle = queue_create();
-    const int buf_size = 32;
-    char *buffer = (char *)malloc(buf_size);
-    queue_obj_t push_obj = {
-        .ptrData = buffer,
-        .len = buf_size};
-
+    TestQueueObj testQueue{"hello world.", 32};
+    auto pushObj = testQueue.getTestQueueObj();
+    
     // Test push and pop. There should be no significant
     // memory userage after this. If there is significant memory
     // userage, there is a memory leak.
 
     for (size_t i = 0; i < 1024UL * 1024UL * 256UL; i++)
     {
-        queue_pushBack(handle, &push_obj);
+        queue_pushBack(handle, &pushObj);
         queue_obj_t pop_obj = queue_pop(handle);
     }
 
-    free(buffer);
     queue_destroy(handle);
 }
