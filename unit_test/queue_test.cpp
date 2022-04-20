@@ -31,25 +31,6 @@ private:
     queue_obj_t obj;
 };
 
-queue_obj_t helper_createTestQueueObj(const char *str, const size_t buffer_len)
-{
-
-    assert(str != NULL);
-
-    char *buffer = (char *)malloc(buffer_len);
-    sprintf(buffer, "%s", str);
-    queue_obj_t obj = {
-        .ptrData = (void *)buffer,
-        .len = buffer_len};
-    return obj;
-}
-
-void helper_freeTestQueueObj(queue_obj_t *const obj)
-{
-    assert(obj != NULL);
-    free(obj->ptrData);
-}
-
 namespace
 {
     class QueueTest : public ::testing::Test
