@@ -263,4 +263,23 @@ namespace
         ASSERT_EQ(0, memcmp(&push_obj_3, &pop_obj_3, sizeof(queue_obj_t)));
         ASSERT_EQ(0, memcmp(push_obj_3.ptrData, pop_obj_3.ptrData, BUFF_SIZE_3));
     }
+
+    TEST_F(QueueTest, itemCountShouldBeZero)
+    {
+        ASSERT_EQ(0, queue_getItemCount(handle));
+    }
+
+    TEST_F(QueueTest, itemCountShouldBeOne)
+    {
+        // create obj
+        const int BUFF_SIZE_1 = 32;
+        TestQueueObj testObj_1{"1.Hello world one", BUFF_SIZE_1};
+        queue_obj_t push_obj_1 = testObj_1.getTestQueueObj();
+
+        queue_pushBack(handle, &push_obj_1);
+
+        ASSERT_EQ(1, queue_getItemCount(handle));
+    }
+
+    
 }
